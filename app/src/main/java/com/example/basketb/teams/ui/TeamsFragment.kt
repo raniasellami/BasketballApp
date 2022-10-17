@@ -1,15 +1,24 @@
 package com.example.basketb.teams.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.basketb.R
 import com.example.basketb.Team.teamsList
+import com.example.basketb.data.NetworkClient
+import com.example.basketb.data.TeamService
+import com.example.basketb.data.model.TeamApiModel
+import com.example.basketb.teams.Team
 import com.example.basketb.teams.TeamAdapter
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class TeamsFragment : Fragment() {
@@ -27,11 +36,20 @@ class TeamsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val teamList = view.findViewById<RecyclerView>(R.id.teams_list)
 
-        val teamAdapter = TeamAdapter(teamsList)
-
-        teamList.layoutManager = LinearLayoutManager(requireContext())
-        teamList.adapter = teamAdapter
+        lifecycleScope.launchWhenCreated {
+            val response = NetworkClient.getInstance().create(TeamService::class.java).fetchTeams()
+            val list = response.data.map { item ->
+                Team(
+                    id = item.id,
+                    city = item.city,
+                    division = item.division,
+                    name = item.name,
+                    conference = item.conference
+                )
+            }
+            val teamAdapter = TeamAdapter(list)
+            teamList.layoutManager = LinearLayoutManager(requireContext())
+            teamList.adapter = teamAdapter
+        }
     }
-
-
 }
