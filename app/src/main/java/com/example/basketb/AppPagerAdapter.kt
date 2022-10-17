@@ -12,8 +12,8 @@ class AppPagerAdapter(val activity: AppCompatActivity) : FragmentStateAdapter(ac
 
     override fun createFragment(position: Int): Fragment {
         return when(position){
-            1 -> TeamsFragment()
-            2 -> GamesFragment()
+            0 -> TeamsFragment()
+            1 -> GamesFragment()
             else -> TeamsFragment()
         }
     }

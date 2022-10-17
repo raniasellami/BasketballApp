@@ -22,8 +22,8 @@ class MainActivity : AppCompatActivity() {
 
         TabLayoutMediator(binding.tab, binding.pager){tab, position ->
             tab.text = when(position) {
-                1 -> "Teams"
-                2 -> "Games"
+                0 -> "Teams"
+                1 -> "Games"
                 else -> "Teams"
             }
         }.attach()
