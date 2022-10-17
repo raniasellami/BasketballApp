@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.basketb.databinding.ActivityMainBinding
 import com.example.basketb.games.GamesFragment
 import com.example.basketb.teams.ui.TeamsFragment
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,16 +16,16 @@ class MainActivity : AppCompatActivity() {
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.Games.setOnClickListener {
-            supportFragmentManager.commit {
-                add(
-                    R.id.container,
-                    GamesFragment()
-                )
+
+        val adapter = AppPagerAdapter(this)
+        binding.pager.adapter = adapter
+
+        TabLayoutMediator(binding.tab, binding.pager){tab, position ->
+            tab.text = when(position) {
+                1 -> "Teams"
+                2 -> "Games"
+                else -> "Teams"
             }
-        }
-        binding.Teams.setOnClickListener {
-            supportFragmentManager.commit { add(R.id.container, TeamsFragment()) }
-        }
+        }.attach()
     }
 }
