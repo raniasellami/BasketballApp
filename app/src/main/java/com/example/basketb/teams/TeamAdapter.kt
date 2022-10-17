@@ -27,7 +27,7 @@ class  TeamAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.fragment_teams, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.team_item_view, parent, false)
         return TeamViewHolder(view)
     }
 
